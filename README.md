@@ -54,7 +54,7 @@ Synthetic images were compared with the originals using PSNR and SSIM metrics.
 
 **Step 6: Writing Python Code for Evaluation**  
 I wrote a custom Python script (`evaluate_psnr_ssim.py`) that takes original and rendered image pairs as input and calculates PSNR and SSIM values for each pair. 
-![image]([https://github.com/muditkhandelwal16/RAS-SES-598-Space-Robotics-and-AI/blob/main/assignments/cart_pole_optimal_control/graphs.png](https://github.com/muditkhandelwal16/Assignment4/blob/main/image.png))
+![image]([https://github.com/muditkhandelwal16/Assignment4/blob/main/image.png]))
 This script helped generate the following evaluation table:
 
 | Original      | Rendered  | PSNR | SSIM   |
@@ -86,7 +86,7 @@ The expanded dataset was processed again in Metashape using the same steps as in
 
 **Step 9: Writing Python Code for Mesh Comparison**  
 To compare the meshes generated from 15 and 25 images, I wrote a Python script (`compare_mesh_stats.py`) that loads both `.ply` mesh files using Open3D, counts vertices and faces, and calculates the bounding box volume. 
-![image]([https://github.com/muditkhandelwal16/RAS-SES-598-Space-Robotics-and-AI/blob/main/assignments/cart_pole_optimal_control/graphs.png](https://github.com/muditkhandelwal16/Assignment4/blob/main/ss.png))
+![image]([https://github.com/muditkhandelwal16/Assignment4/blob/main/ss.png]))
 This script provided the following metrics:
 
 | Model Type                         | Vertices | Faces   | Bounding Box Volume |
