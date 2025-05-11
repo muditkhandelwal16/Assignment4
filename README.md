@@ -21,11 +21,11 @@ Gaussian Splatting is a recent technique in neural rendering that enables fast, 
 
 ## Software Used
 
-- **Agisoft Metashape** – For photogrammetric processing: image alignment, dense cloud generation, mesh creation, and texturing.
-- **Gaussian Splatting (GraphDeCO)** – Open-source neural rendering tool used for novel view synthesis.
-- **Open3D** – Used to compute mesh statistics such as vertex count, face count, and bounding box volume.
-- **Python 3.10 with PyTorch** – Environment used to run the rendering and evaluation tools.
-- **Ubuntu 22.04** – Operating system used throughout the pipeline.
+- Agisoft Metashape: For photogrammetric processing, including image alignment, dense point cloud generation, mesh creation, and texturing.
+- Gaussian Splatting (GraphDeCO): Open-source neural rendering tool for novel view synthesis.
+- Open3D: Used to compute mesh statistics such as vertex count, face count, and bounding box volume.
+- Python 3.10 with PyTorch: Environment used for executing Gaussian Splatting and mesh evaluation scripts.
+- Ubuntu 22.04: Operating system for running all tools.
 
 ---
 
@@ -34,25 +34,26 @@ Gaussian Splatting is a recent technique in neural rendering that enables fast, 
 ### Part A – Baseline Photogrammetry and Neural Rendering Evaluation
 
 **Step 1: Initial Dataset Preparation**  
-A set of 10 high-resolution images were captured from slightly different viewpoints, ensuring sufficient overlap for photogrammetric alignment.
+The dataset consisted of 10 original high-resolution images taken from slightly different angles around a target object. These images were captured ensuring adequate overlap to allow for robust photogrammetric alignment.
 
 **Step 2: Photogrammetric Reconstruction using Agisoft Metashape**  
-The standard photogrammetry workflow was followed:
-- Photo alignment  
-- Dense point cloud generation  
-- Mesh construction  
-- Texture mapping  
-
-This produced a 3D model based on the original 10 images.
+Using Agisoft Metashape, the following reconstruction workflow was executed:
+- Photo Alignment
+- Dense Point Cloud Generation
+- Mesh Generation
+- Texture Mapping
 
 **Step 3: Gaussian Splatting Setup**  
-The same 10 images were used to train a Gaussian Splatting model. The model learned a 3D representation of the scene using Gaussian primitives.
+The same 10-image dataset was used to train a Gaussian Splatting model.
 
 **Step 4: Novel View Rendering**  
-Ten novel images were rendered from new viewpoints not present in the original dataset.
+Ten rendered images were generated from novel camera viewpoints.
 
 **Step 5: Image Quality Evaluation**  
-The synthetic images were evaluated using PSNR and SSIM compared to their closest original counterparts:
+Synthetic images were compared with the originals using PSNR and SSIM metrics.
+
+**Step 6: Writing Python Code for Evaluation**  
+I wrote a custom Python script (`evaluate_psnr_ssim.py`) that takes original and rendered image pairs as input and calculates PSNR and SSIM values for each pair. This script helped generate the following evaluation table:
 
 | Original      | Rendered  | PSNR | SSIM   |
 |---------------|-----------|------|--------|
@@ -67,49 +68,35 @@ The synthetic images were evaluated using PSNR and SSIM compared to their closes
 | A17_09.png    | img8.png  | 9.70 | 0.2094 |
 | A17_10.png    | img9.png  | 9.56 | 0.1812 |
 
-The values indicate that while the synthetic views differ slightly in pixel-level details, they retain sufficient geometric and structural information to be useful in further reconstruction.
-
 ---
 
 ### Part B – Photogrammetry with Gaussian Splatting-Augmented Dataset
 
-**Step 6: Generating and Adding Novel Views**  
-Ten novel images generated via Gaussian Splatting were added to the original 15-image dataset, forming a new set of 25 total images.
+**Step 7: Generating and Adding Novel Views**  
+From the trained Gaussian Splatting model, 10 synthetic views were rendered and added to the dataset. These views were chosen from perspectives not originally present in the dataset.
 
-**Step 7: Full Photogrammetric Reconstruction with 25 Images**  
-The full dataset was reprocessed in Metashape from scratch:
-- Photo alignment  
-- Dense cloud generation  
-- Mesh construction  
-- Texture mapping  
+**Step 8: Full Photogrammetric Reconstruction with 25 Images**  
+The expanded dataset was processed again in Metashape using the same steps as in Part A:
+- Photo Alignment
+- Dense Cloud Generation
+- Mesh Construction
+- Texture Mapping
 
-**Step 8: Quantitative Mesh Comparison**
+**Step 9: Writing Python Code for Mesh Comparison**  
+To compare the meshes generated from 15 and 25 images, I wrote a Python script (`compare_mesh_stats.py`) that loads both `.ply` mesh files using Open3D, counts vertices and faces, and calculates the bounding box volume. This script provided the following metrics:
 
 | Model Type                         | Vertices | Faces   | Bounding Box Volume |
 |-----------------------------------|----------|---------|---------------------|
 | Photogrammetry (15 views)         | 274,292  | 548,097 | 649.57              |
 | Photogrammetry + Splat Views (25) | 268,438  | 536,450 | 296.89              |
 
-Although the total number of vertices and faces was slightly reduced, the bounding box volume was significantly lower, indicating a more compact and likely more accurate mesh. This suggests that the addition of synthetic views helped remove ambiguity and noise in the reconstruction.
-
-**Step 9: Qualitative Model Comparison**  
-The 25-image model showed:
-- Improved surface closure in previously occluded areas  
-- Better texture quality  
-- Fewer gaps and reduced mesh noise  
-
-This confirmed that synthetic views contributed meaningfully to improving model coverage and completeness.
+**Step 10: Qualitative Model Comparison**  
+The 25-image model showed improved surface geometry, better closure, and fewer holes. Texture coverage was also more complete compared to the original reconstruction.
 
 ---
 
 ## Conclusion
 
-This project demonstrates that synthetic novel views generated via Gaussian Splatting can improve photogrammetric modeling when added to real-world image datasets. The combination of traditional and neural techniques leads to better scene coverage, reduced artifacts, and more compact 3D models. Both quantitative metrics and visual inspection validate that this hybrid method can be effective in practice. This approach has potential applications in digital reconstruction, AR/VR content creation, and autonomous robotic mapping.
+Synthetic views generated by Gaussian Splatting provided sufficient additional coverage to improve photogrammetric reconstruction. Quantitative results show tighter geometry, and qualitative evaluation confirms more complete and realistic surface modeling. This hybrid approach can be applied to improve 3D modeling quality in various fields including digital heritage preservation, simulation environments, and autonomous systems.
 
 ---
-
-## Credits
-
-- Gaussian Splatting GitHub: [graphdeco-inria/gaussian-splatting](https://github.com/graphdeco-inria/gaussian-splatting)
-- Metashape: [https://www.agisoft.com](https://www.agisoft.com)
-- Project by Mudit
