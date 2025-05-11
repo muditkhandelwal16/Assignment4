@@ -53,7 +53,9 @@ Ten rendered images were generated from novel camera viewpoints.
 Synthetic images were compared with the originals using PSNR and SSIM metrics.
 
 **Step 6: Writing Python Code for Evaluation**  
-I wrote a custom Python script (`evaluate_psnr_ssim.py`) that takes original and rendered image pairs as input and calculates PSNR and SSIM values for each pair. This script helped generate the following evaluation table:
+I wrote a custom Python script (`evaluate_psnr_ssim.py`) that takes original and rendered image pairs as input and calculates PSNR and SSIM values for each pair. 
+![image](https://github.com/muditkhandelwal16/RAS-SES-598-Space-Robotics-and-AI/blob/main/assignments/cart_pole_optimal_control/graphs.png)
+This script helped generate the following evaluation table:
 
 | Original      | Rendered  | PSNR | SSIM   |
 |---------------|-----------|------|--------|
