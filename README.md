@@ -43,6 +43,8 @@ Using Agisoft Metashape, the following reconstruction workflow was executed:
 - Mesh Generation
 - Texture Mapping
 
+![image](https://github.com/muditkhandelwal16/Assignment4/blob/main/agesoft.png)
+
 **Step 3: Gaussian Splatting Setup**  
 The same 10-image dataset was used to train a Gaussian Splatting model.
 
